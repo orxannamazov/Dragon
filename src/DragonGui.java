@@ -1,0 +1,76 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JTextField;
+import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+
+public class DragonGui extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField txtHellop;
+	private dragonCanvas dragonCanvas; 
+	private JTextField textField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					DragonGui frame = new DragonGui();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public DragonGui() {
+		setTitle("DRAGON VALLEY" );
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(200, 100, 720, 680);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		
+		dragonCanvas =  new dragonCanvas();
+		dragonCanvas = new dragonCanvas();
+		dragonCanvas.setPreferredSize(new Dimension(720, 680));
+		dragonCanvas.setVisible(true);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		dragonCanvas.setFocusable(true);
+		
+		contentPane.add(dragonCanvas,BorderLayout.CENTER);
+		
+		JLabel lblDragon = new JLabel("DRAGON");
+		lblDragon.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		contentPane.add(lblDragon, BorderLayout.NORTH);
+		
+		String text = "GROUP 11!";
+		JLabel lblbottom = new JLabel(text, SwingConstants.CENTER);
+		lblbottom.setFont(new Font("default", Font.BOLD, 16));
+		lblbottom.setForeground(Color.BLUE);
+		
+		contentPane.add(lblbottom, BorderLayout.SOUTH);
+		
+		JLabel label = new JLabel(" BETA Version ");
+		contentPane.add(label, BorderLayout.WEST);
+	
+		
+		
+	}
+}
