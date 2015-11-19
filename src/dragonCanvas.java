@@ -13,6 +13,7 @@ import java.util.Random;
 
 import javax.swing.ImageIcon;
 
+
 import javafx.scene.layout.Background;
 
 public class dragonCanvas extends Canvas implements Runnable, KeyListener
@@ -29,11 +30,15 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 	private Point fruit;
 	private int direction = Directions.NO_DIRECTION;
 	
-	private int score = 0;
+	private int score = 0, curScore;
 
 	private Thread runThread;
 	private Graphics globalGraphics;
 	private boolean gameisOver =  false;
+	
+	// Create database 
+	Database test =  new Database("localhost", 27017,  "DragonValley", "Users");
+	boolean writen = false;
 
 	public void paint(Graphics g) 
 	{
@@ -81,11 +86,11 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 		direction = Directions.NO_DIRECTION;
 		
 		score = 0;
+		writen = false;
 	}
 	
 	public void Draw(Graphics g) 
 	{
-		
 		g.clearRect(0, 0, BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30);
 		
 		BufferedImage bufferedimage = new BufferedImage(BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30, BufferedImage.TYPE_INT_ARGB);
@@ -96,14 +101,21 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 		DrawDragon(bufferGraphics);
 		drawScore(bufferGraphics);
 		
-	if (gameisOver) {
+		if (gameisOver) {
 			this.setBackground(Color.BLUE);
+			if (!writen) {
+				
+				String name = DragonGui.textField_1.getText(); /** ****** ******* **/
+				test.writeToDb(name, curScore);               /** MUST BE CHANGED **/
+				
+				curScore = 0;
+				writen = true;
+			}
 			gameOverDisplay(bufferGraphics);
 	}
 	else	
-		this.setBackground(c);
+		this.setBackground(c);  // Put first background color again. 
 
-	
 		g.drawImage(bufferedimage, 0, 0, BOX_WIDTH * GRID_WIDTH, BOX_HEIGHT * GRID_HEIGHT, this);
 	}
 	
@@ -120,7 +132,8 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 	}
 	public void Move() 
 	{
-		if(direction ==  Directions.NO_DIRECTION){
+		/** for start point gameover is always true. inorder to fix this bug I wrote this statement **/
+		if(direction ==  Directions.NO_DIRECTION){ // in order not to run this func 
 			return;
 		}
 
@@ -151,10 +164,11 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 			//the dragon has hit fruit
 			Point addPoint =  (Point) newPoint.clone();
 			score += 10;
+			curScore = score;
 			
 			switch (direction) {
 			case Directions.NORTH:
-				newPoint = new Point(head.x, head.y- 1);
+				newPoint = new Point(head.x, head.y - 1);
 				break;
 			case Directions.SOUTH:
 				newPoint = new Point(head.x, head.y + 1);
@@ -166,7 +180,7 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 				newPoint = new Point(head.x + 1, head.y);
 				break;
 			}
-			dragon.push(addPoint);
+			dragon.push(addPoint); // when it hits to fruit, dragon will grow up 
 			replaceFruit();
 			
 		}
@@ -194,7 +208,7 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 		}
 
 		//if we reach this point in code, we're still good
-		dragon.push(newPoint);
+		dragon.push(newPoint);  // if we're good, so dragon should move
 	}
 
 	public void DrawGrid(Graphics g) 
@@ -241,7 +255,7 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 
 	@Override
 	public void run() {
-		c = getBackground();
+		c = getBackground(); // in order to save background color 
 		while (true) 
 		{
 			//runs indefinitely
@@ -251,7 +265,7 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 			try 
 			{
 				Thread.currentThread();
-				Thread.sleep(120);
+				Thread.sleep(110);
 			}
 			catch (Exception e) 
 			{

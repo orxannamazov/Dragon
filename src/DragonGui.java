@@ -19,6 +19,7 @@ public class DragonGui extends JFrame {
 	private JTextField txtHellop;
 	private dragonCanvas dragonCanvas; 
 	private JTextField textField;
+	static JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -67,8 +68,10 @@ public class DragonGui extends JFrame {
 		
 		contentPane.add(lblbottom, BorderLayout.SOUTH);
 		
-		JLabel label = new JLabel(" BETA Version ");
-		contentPane.add(label, BorderLayout.WEST);
+		textField_1 = new JTextField();
+		textField_1.setToolTipText("NAME");
+		contentPane.add(textField_1, BorderLayout.WEST);
+		textField_1.setColumns(10);
 	
 		
 		
