@@ -13,12 +13,13 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+
 public class DragonGui extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtHellop;
+	//private JTextField txtHellop;
 	private dragonCanvas dragonCanvas; 
-	private JTextField textField;
+	//private JTextField textField;
 	static JTextField textField_1;
 
 	/**

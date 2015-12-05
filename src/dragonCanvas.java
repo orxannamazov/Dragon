@@ -19,16 +19,19 @@ import javafx.scene.layout.Background;
 public class dragonCanvas extends Canvas implements Runnable, KeyListener
 {
 	//VARIABLES
-	private final int BOX_HEIGHT	 = 30;
-	private final int BOX_WIDTH		 = 30;
-	private final int GRID_WIDTH 	 = 20;
-	private final int GRID_HEIGHT	 = 20;
+	public static final int BOX_HEIGHT	 = 30;
+	public static final int BOX_WIDTH	 = 30;
+	public static final int GRID_WIDTH 	 = 20;
+	public static final int GRID_HEIGHT	 = 20;
 
 	Color c; 
 
-	private LinkedList<Point> dragon;
+	//private LinkedList<Point> dragon;// dragon stuff
+	private Dragon dragon;
+
+
 	private Point fruit;
-	private int direction = Directions.NO_DIRECTION;
+	//private int direction = Directions.NO_DIRECTION;
 	
 	private int score = 0, curScore;
 
@@ -44,9 +47,11 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 	{
 		this.setPreferredSize(new Dimension(720, 680));
 		
-		dragon = new LinkedList<Point>();
+		//dragon = new LinkedList<Point>(); // dragon stuff
+		dragon = new Dragon();
 		
-		DefaultDragon();
+		dragon.defaultDragon();
+		defaultGame();
 		replaceFruit();
 		
 		globalGraphics = g.create();
@@ -75,7 +80,7 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 		
 	}
 	
-	public void DefaultDragon()
+	/*public void DefaultDragon()
 	{
 		dragon.clear();
 		
@@ -84,7 +89,10 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 		dragon.add(new Point(1,1));
 		
 		direction = Directions.NO_DIRECTION;
-		
+	}*/
+
+	public void defaultGame()
+	{
 		score = 0;
 		writen = false;
 	}
@@ -98,7 +106,7 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 		
 		DrawFruit(bufferGraphics);
 		DrawGrid(bufferGraphics);
-		DrawDragon(bufferGraphics);
+		dragon.drawDragon(bufferGraphics);
 		drawScore(bufferGraphics);
 		
 		if (gameisOver) {
@@ -133,16 +141,16 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 	public void Move() 
 	{
 		/** for start point gameover is always true. inorder to fix this bug I wrote this statement **/
-		if(direction ==  Directions.NO_DIRECTION){ // in order not to run this func 
+		if(dragon.getDirection() ==  Directions.NO_DIRECTION){ // in order not to run this func
 			return;
 		}
 
 		gameisOver =  false;
-	
-		Point head = dragon.peekFirst();
+
+		Point head = dragon.getHead();
 		Point newPoint = head;
 		
-		switch (direction) {
+		switch (dragon.getDirection()) {
 		case Directions.NORTH:
 			newPoint = new Point(head.x, head.y- 1);
 			break;
@@ -157,7 +165,7 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 			break;
 		}
 
-		dragon.remove(dragon.peekLast());
+		dragon.remove(dragon.getTail());
 
 		if (newPoint.equals(fruit)) 
 		{
@@ -166,7 +174,7 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 			score += 10;
 			curScore = score;
 			
-			switch (direction) {
+			switch (dragon.getDirection()) {
 			case Directions.NORTH:
 				newPoint = new Point(head.x, head.y - 1);
 				break;
@@ -187,14 +195,16 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 		else if (newPoint.x < 0 || newPoint.x > GRID_WIDTH-1)
 		{
 			//we went oob, reset game
-			DefaultDragon();
+			dragon.defaultDragon();
+			defaultGame();
 			gameisOver =  true;
 			return;
 		}
 		else if (newPoint.y < 0 || newPoint.y > GRID_HEIGHT-1) 
 		{
 			//we went oob, reset game
-			DefaultDragon();
+			dragon.defaultDragon();
+			defaultGame();
 			gameisOver =  true;
 			return;
 			
@@ -202,7 +212,8 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 		else if (dragon.contains(newPoint)) 
 		{
 			//we ran into ourselves, reset game
-			DefaultDragon();
+			dragon.defaultDragon();
+			defaultGame();
 			gameisOver =  true;
 			return;
 		}
@@ -227,7 +238,7 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 		}
 	}
 
-	public void DrawDragon(Graphics g)
+	/*public void DrawDragon(Graphics g)
 	{
 		g.setColor(Color.GREEN);
 		for (Point p : dragon)
@@ -235,7 +246,7 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 			g.fillOval(p.x * BOX_WIDTH, p.y * BOX_HEIGHT, BOX_WIDTH, BOX_HEIGHT);
 		}
 		g.setColor(Color.BLACK);
-	}
+	}*/
 	
 	
 	public void gameOverDisplay (Graphics g)
@@ -276,22 +287,23 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		int direction = dragon.getDirection();
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
 			if (direction !=  Directions.SOUTH)
-				direction = Directions.NORTH;
+				dragon.setDirection(Directions.NORTH);
 			break;
 		case KeyEvent.VK_DOWN:
 			if (direction !=  Directions.NORTH)
-				direction = Directions.SOUTH;
+				dragon.setDirection(Directions.SOUTH);
 			break;
 		case KeyEvent.VK_RIGHT:
 			if (direction !=  Directions.WEST)
-				direction = Directions.EAST;
+				dragon.setDirection(Directions.EAST);
 			break;
 		case KeyEvent.VK_LEFT:
 			if (direction !=  Directions.EAST)
-				direction = Directions.WEST;
+				dragon.setDirection(Directions.WEST);
 			break;
 
 		default:
