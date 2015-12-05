@@ -1,9 +1,4 @@
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -16,15 +11,75 @@ import javax.swing.ImageIcon;
 
 import javafx.scene.layout.Background;
 
-public class dragonCanvas extends Canvas implements Runnable, KeyListener
+public class dragonCanvas extends Canvas implements KeyListener
 {
+
 	//VARIABLES
 	public static final int BOX_HEIGHT	 = 30;
 	public static final int BOX_WIDTH	 = 30;
 	public static final int GRID_WIDTH 	 = 20;
 	public static final int GRID_HEIGHT	 = 20;
 
-	Color c; 
+	private GameController controller;
+	private BufferedImage bufferedImage;
+
+	public dragonCanvas()
+	{
+		addKeyListener( this);
+	}
+
+
+	public void setGameController( GameController cont)
+	{
+		controller = cont;
+	}
+
+
+	public void draw(BufferedImage buf)
+	{
+		this.bufferedImage = buf;
+		repaint();
+	}
+
+	@Override
+	public void paint( Graphics g)
+	{
+		((Graphics2D)g).setBackground( Color.GRAY);
+		((Graphics2D)g).drawImage(bufferedImage, null, 0, 0);
+
+	}
+
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		controller.keyPressed( e);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+	/*
+
 
 	//private LinkedList<Point> dragon;// dragon stuff
 	private Dragon dragon;
@@ -41,28 +96,10 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 	
 	// Create database 
 	Database test =  new Database("localhost", 27017,  "DragonValley", "Users");
+
 	boolean writen = false;
 
-	public void paint(Graphics g) 
-	{
-		this.setPreferredSize(new Dimension(720, 680));
-		
-		//dragon = new LinkedList<Point>(); // dragon stuff
-		dragon = new Dragon();
-		
-		dragon.defaultDragon();
-		defaultGame();
-		replaceFruit();
-		
-		globalGraphics = g.create();
-		this.addKeyListener(this); // add its own keyListener
-		
-		if (runThread == null) 
-		{
-			runThread = new Thread(this);
-			runThread.start();
-		}
-	}
+
 
 	public void replaceFruit()
 	{
@@ -79,17 +116,7 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 		fruit = randomPoint;
 		
 	}
-	
-	/*public void DefaultDragon()
-	{
-		dragon.clear();
-		
-		dragon.add(new Point(3,1));
-		dragon.add(new Point(2,1));
-		dragon.add(new Point(1,1));
-		
-		direction = Directions.NO_DIRECTION;
-	}*/
+
 
 	public void defaultGame()
 	{
@@ -97,32 +124,32 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 		writen = false;
 	}
 	
-	public void Draw(Graphics g) 
+	public void draw(BufferedImage buf)
 	{
 		g.clearRect(0, 0, BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30);
-		
-		BufferedImage bufferedimage = new BufferedImage(BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30, BufferedImage.TYPE_INT_ARGB);
+
+		BufferedImage bufferedimage = new BufferedImage(BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics bufferGraphics = bufferedimage.getGraphics();
-		
+
 		DrawFruit(bufferGraphics);
 		DrawGrid(bufferGraphics);
 		dragon.drawDragon(bufferGraphics);
 		drawScore(bufferGraphics);
-		
+
 		if (gameisOver) {
 			this.setBackground(Color.BLUE);
 			if (!writen) {
-				
-				String name = DragonGui.textField_1.getText(); /** ****** ******* **/
-				test.writeToDb(name, curScore);               /** MUST BE CHANGED **/
-				
+
+				String name = DragonGui.textField_1.getText();
+				test.writeToDb(name, curScore);
+
 				curScore = 0;
 				writen = true;
 			}
 			gameOverDisplay(bufferGraphics);
 	}
-	else	
-		this.setBackground(c);  // Put first background color again. 
+	else
+		this.setBackground(c);  // Put first background color again.
 
 		g.drawImage(bufferedimage, 0, 0, BOX_WIDTH * GRID_WIDTH, BOX_HEIGHT * GRID_HEIGHT, this);
 	}
@@ -140,7 +167,7 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 	}
 	public void Move() 
 	{
-		/** for start point gameover is always true. inorder to fix this bug I wrote this statement **/
+		/* for start point gameover is always true. inorder to fix this bug I wrote this statement
 		if(dragon.getDirection() ==  Directions.NO_DIRECTION){ // in order not to run this func
 			return;
 		}
@@ -237,16 +264,6 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 			g.drawLine(0, y, GRID_WIDTH * BOX_WIDTH, y);
 		}
 	}
-
-	/*public void DrawDragon(Graphics g)
-	{
-		g.setColor(Color.GREEN);
-		for (Point p : dragon)
-		{
-			g.fillOval(p.x * BOX_WIDTH, p.y * BOX_HEIGHT, BOX_WIDTH, BOX_HEIGHT);
-		}
-		g.setColor(Color.BLACK);
-	}*/
 	
 	
 	public void gameOverDisplay (Graphics g)
@@ -322,6 +339,6 @@ public class dragonCanvas extends Canvas implements Runnable, KeyListener
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 
 }
