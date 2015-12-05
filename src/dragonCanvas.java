@@ -28,6 +28,11 @@ public class dragonCanvas extends Canvas implements KeyListener
 		addKeyListener( this);
 	}
 
+	public Color getBackground1()
+	{
+		Color c = getBackground();
+		return c;
+	}
 
 	public void setGameController( GameController cont)
 	{
@@ -99,6 +104,29 @@ public class dragonCanvas extends Canvas implements KeyListener
 	boolean writen = false;
 
 
+<<<<<<< Updated upstream
+=======
+	public void paint(Graphics g) 
+	{
+		this.setPreferredSize(new Dimension(720, 680));
+		
+		//dragon = new LinkedList<Point>(); // dragon stuff
+		dragon = new Dragon();
+		
+		dragon.defaultDragon();
+		defaultGame();
+		replaceFruit();
+		
+		globalGraphics = g.create();
+		this.addKeyListener(this); // add its own keyListener
+		
+		if (runThread == null) 
+		{
+			runThread = new Thread(this);
+			runThread.start();
+		}
+	}
+>>>>>>> Stashed changes
 
 	public void replaceFruit()
 	{
@@ -144,6 +172,8 @@ public class dragonCanvas extends Canvas implements KeyListener
 
 				curScore = 0;
 				writen = true;
+				
+				test.getAll();
 			}
 			gameOverDisplay(bufferGraphics);
 	}
@@ -236,6 +266,7 @@ public class dragonCanvas extends Canvas implements KeyListener
 			
 		}
 		else if (dragon.contains(newPoint)) 
+			
 		{
 			//we ran into ourselves, reset game
 			dragon.defaultDragon();

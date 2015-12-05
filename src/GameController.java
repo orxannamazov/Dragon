@@ -18,9 +18,11 @@ public class GameController implements Runnable
     public static final int BOX_WIDTH	 = 30;
     public static final int GRID_WIDTH 	 = 20;
     public static final int GRID_HEIGHT	 = 20;
+    
+    //hold a reference to the dragon canvas so that it can paint
+    dragonCanvas canvas;
+    
 
-    Color gameColor = Color.gray;
-    Color backgroundColor = gameColor;
 
     //private LinkedList<Point> dragon;// dragon stuff
     private Dragon dragon;
@@ -40,17 +42,18 @@ public class GameController implements Runnable
 
     boolean writen = false;
 
-    //hold a reference to the dragon canvas so that it can paint
-    dragonCanvas canvas;
+//    Color gameColor = canvas.getBackground1();
+//    Color backgroundColor = gameColor;
 
-
+    Color backgroundColor;
 
     public GameController( dragonCanvas c)
     {
         canvas = c;
 
         dragon = new Dragon();
-
+        
+        backgroundColor = canvas.getBackground1();
         dragon.defaultDragon();
         defaultGame();
         replaceFruit();
@@ -101,7 +104,7 @@ public class GameController implements Runnable
     public BufferedImage draw()
     {
 
-        BufferedImage bufferedimage = new BufferedImage(BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30, BufferedImage.TYPE_4BYTE_ABGR);
+        BufferedImage bufferedimage = new BufferedImage(BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30, BufferedImage.TYPE_INT_ARGB_PRE);
         Graphics bufferGraphics = bufferedimage.getGraphics();
         Color defaultColor = bufferGraphics.getColor();
         bufferGraphics.setColor( backgroundColor);
@@ -119,14 +122,14 @@ public class GameController implements Runnable
 
                 String name = DragonGui.textField_1.getText(); /** ****** ******* **/
                 test.writeToDb(name, curScore);               /** MUST BE CHANGED **/
-
+                test.getAll();
                 curScore = 0;
                 writen = true;
             }
             gameOverDisplay(bufferGraphics);
         }
         else
-            backgroundColor = gameColor;  // Put first background color again.
+           backgroundColor = canvas.getBackground1();  // Put first background color again.
 
         bufferGraphics.drawImage(bufferedimage, 0, 0, BOX_WIDTH * GRID_WIDTH, BOX_HEIGHT * GRID_HEIGHT, canvas);
 
@@ -148,7 +151,6 @@ public class GameController implements Runnable
     {
         /** for start point gameover is always true. inorder to fix this bug I wrote this statement **/
         if(dragon.getDirection() ==  Directions.NO_DIRECTION){ // in order not to run this func
-            System.out.println("not moving");
             return;
         }
 

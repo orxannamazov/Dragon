@@ -1,9 +1,13 @@
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 
 
@@ -44,13 +48,15 @@ public class Database {
 	private boolean connectToDb(String hostname, int port){
 		try {
 			mongoClient = new MongoClient( hostname, port );	
+			
+			System.out.println("I connected to db");
 			return true; 
 
 		} catch (Exception e) {
-			System.out.println("ERROR WHILE CONNECTION TO DB " + e.getMessage());
+			System.out.println("ERROR WHILE CONNECTION TO DB" + e.getMessage());
 			return false; 
 		}
-
+		
 	}
 
 	public void writeToDb(String name, int point)
@@ -81,6 +87,15 @@ public class Database {
 
 		table.update(query, updateObj);
 	}
+	
+	public void getAll()
+	{
+	
+		  DBCursor cursor = table.find().sort(new BasicDBObject("Point",-1)).limit(3);  
+		  while (cursor.hasNext()) {  
+		   System.out.println(cursor.next());  
+		  }  
 
+	}
 
 }

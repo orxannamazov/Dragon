@@ -44,14 +44,20 @@ public class DragonGui extends JFrame {
 	public DragonGui() {
 		setTitle("DRAGON VALLEY" );
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 100, 720, 680);
+		setBounds(200, 100, 820, 680);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
 
+
 		dragonCanvas = new dragonCanvas();
 		dragonCanvas.setPreferredSize(new Dimension(720, 680));
+
+		
+		dragonCanvas =  new dragonCanvas();
+		dragonCanvas.setPreferredSize(new Dimension(820, 680));
+
 		dragonCanvas.setVisible(true);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		dragonCanvas.setFocusable(true);
