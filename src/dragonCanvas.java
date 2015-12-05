@@ -44,7 +44,6 @@ public class dragonCanvas extends Canvas implements KeyListener
 	@Override
 	public void paint( Graphics g)
 	{
-		((Graphics2D)g).setBackground( Color.GRAY);
 		((Graphics2D)g).drawImage(bufferedImage, null, 0, 0);
 
 	}

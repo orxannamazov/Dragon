@@ -1,7 +1,11 @@
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+
 
 /**
  * Created by omer on 05.12.2015.
@@ -15,7 +19,8 @@ public class GameController implements Runnable
     public static final int GRID_WIDTH 	 = 20;
     public static final int GRID_HEIGHT	 = 20;
 
-    Color c;
+    Color gameColor = Color.gray;
+    Color backgroundColor = gameColor;
 
     //private LinkedList<Point> dragon;// dragon stuff
     private Dragon dragon;
@@ -98,7 +103,10 @@ public class GameController implements Runnable
 
         BufferedImage bufferedimage = new BufferedImage(BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics bufferGraphics = bufferedimage.getGraphics();
-        bufferGraphics.clearRect(0, 0, BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30);
+        Color defaultColor = bufferGraphics.getColor();
+        bufferGraphics.setColor( backgroundColor);
+        bufferGraphics.fillRect(0, 0, BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30);
+        bufferGraphics.setColor( defaultColor);
 
         DrawFruit(bufferGraphics);
         DrawGrid(bufferGraphics);
@@ -106,7 +114,7 @@ public class GameController implements Runnable
         drawScore(bufferGraphics);
 
         if (gameisOver) {
-            canvas.setBackground(Color.BLUE);
+            backgroundColor = Color.blue;
             if (!writen) {
 
                 String name = DragonGui.textField_1.getText(); /** ****** ******* **/
@@ -118,7 +126,7 @@ public class GameController implements Runnable
             gameOverDisplay(bufferGraphics);
         }
         else
-            canvas.setBackground(c);  // Put first background color again.
+            backgroundColor = gameColor;  // Put first background color again.
 
         bufferGraphics.drawImage(bufferedimage, 0, 0, BOX_WIDTH * GRID_WIDTH, BOX_HEIGHT * GRID_HEIGHT, canvas);
 
@@ -288,7 +296,7 @@ public class GameController implements Runnable
     @Override
     public void run() {
         //c = getBackground(); // in order to save background color
-        while (true)
+        /*while (true)
         {
             //runs indefinitely
             Move();
@@ -297,12 +305,25 @@ public class GameController implements Runnable
             try
             {
                 Thread.currentThread();
-                Thread.sleep(110);
+                Thread.sleep(200);
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
-        }
+        }*/
+
+        Timer t = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Move();
+                canvas.draw(draw());
+            }
+        });
+
+        t.start();
+
+
+
     }
 }
