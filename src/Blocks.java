@@ -13,14 +13,14 @@ import java.util.ArrayList;
  */
 public class Blocks 
 {
-    ArrayList<Block> blocks;
-    
-    public void createBlocks(Block newBlock){
-        blocks.add(newBlock);
-    }
-    
-    public void drawBlocks(BufferedImage image)
-    {
-        
-    }
+//    ArrayList<Block> blocks;
+//    
+//    public void createBlocks(Block newBlock){
+//        blocks.add(newBlock);
+//    }
+//    
+//    public void drawBlocks(BufferedImage image)
+//    {
+//        
+//    }
 }

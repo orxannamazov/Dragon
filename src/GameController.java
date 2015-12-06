@@ -38,12 +38,9 @@ public class GameController implements Runnable
     private boolean gameisOver =  false;
 
     // Create database
-    Database test =  new Database("localhost", 27017,  "DragonValley", "Users");
+    Database test =  new Database();
 
     boolean writen = false;
-
-//    Color gameColor = canvas.getBackground1();
-//    Color backgroundColor = gameColor;
 
     Color backgroundColor;
 
@@ -106,7 +103,9 @@ public class GameController implements Runnable
 
         BufferedImage bufferedimage = new BufferedImage(BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30, BufferedImage.TYPE_INT_ARGB_PRE);
         Graphics bufferGraphics = bufferedimage.getGraphics();
+        
         Color defaultColor = bufferGraphics.getColor();
+
         bufferGraphics.setColor( backgroundColor);
         bufferGraphics.fillRect(0, 0, BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30);
         bufferGraphics.setColor( defaultColor);
@@ -119,10 +118,10 @@ public class GameController implements Runnable
         if (gameisOver) {
             backgroundColor = Color.blue;
             if (!writen) {
-
+            	LeaderBoard lb = new LeaderBoard();
                 String name = DragonGui.textField_1.getText(); /** ****** ******* **/
                 test.writeToDb(name, curScore);               /** MUST BE CHANGED **/
-                test.getAll();
+                lb.printScore();
                 curScore = 0;
                 writen = true;
             }
@@ -140,6 +139,7 @@ public class GameController implements Runnable
 
     public void drawScore (Graphics g)
     {
+   
         g.setColor(Color.BLUE);
         g.setFont(new Font("default", Font.BOLD, 16));
         g.drawString("Score: " + score, 0, BOX_HEIGHT * GRID_HEIGHT + 20);

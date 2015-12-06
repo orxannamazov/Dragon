@@ -51,9 +51,6 @@ public class DragonGui extends JFrame {
 
 
 
-		dragonCanvas = new dragonCanvas();
-		dragonCanvas.setPreferredSize(new Dimension(720, 680));
-
 		
 		dragonCanvas =  new dragonCanvas();
 		dragonCanvas.setPreferredSize(new Dimension(820, 680));
@@ -83,5 +80,11 @@ public class DragonGui extends JFrame {
 		textField_1.setToolTipText("NAME");
 		contentPane.add(textField_1, BorderLayout.WEST);
 		textField_1.setColumns(10);
+		
+		InfoPanel infoPanel = new InfoPanel();
+		infoPanel.setPreferredSize(new Dimension(220, 680));
+		infoPanel.setVisible(true);
+		infoPanel.setFocusable(true);
+		contentPane.add(infoPanel,BorderLayout.EAST);
 	}
 }

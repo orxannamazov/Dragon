@@ -1,12 +1,15 @@
 
-public class Score implements Comparable<Score> {
+public class Score {
 	
 	//VARIABLES 
 	private String name;
 	private int id ;
 	private int point;
 	
-	
+	public Score ()
+	{
+		
+	}
 	public Score(String name, int id, int point) {
 		this.name = name;
 		this.id = id;
@@ -31,24 +34,10 @@ public class Score implements Comparable<Score> {
 	public void setPoint(int point) {
 		this.point = point;
 	}
-
-
-
+	
 	@Override
-	public int compareTo(Score sc) {
-		// TODO Auto-generated method stub
-		
-		if( point > sc.getPoint())
-			return -1;
-		else if( point == sc.getPoint())
-			return 0;
-		else
-			return 1;
-		
+	public String toString() {
+		return "Name = " + name + ",  Point = " + point + "\n";
 	}
-	
-	
-	
-	
 
 }
