@@ -23,10 +23,10 @@ public class InfoPanel extends Canvas {
     public void drawScore (Graphics g)
     {
         g.setColor(Color.BLUE);
-      //  g.setFont(new Font("default", Font.BOLD, 16));
+        g.setFont(new Font("default", Font.BOLD, 16));
         
         for (int i = 0; i < 3; i++) {
-        	 g.drawString(score.toString() + "\n" , 0, i + 30);
+        	 g.drawString(score.toString() + "\n" , 5, i + 30);
         	 System.out.println(score.toString());
 		}
 
