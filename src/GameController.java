@@ -1,3 +1,5 @@
+import com.sun.corba.se.impl.orbutil.graph.Graph;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,6 +29,8 @@ public class GameController implements Runnable
     //private LinkedList<Point> dragon;// dragon stuff
     private Dragon dragon;
 
+    private Door door;
+
     private Blocks blocks;
 
     private Point fruit;
@@ -37,6 +41,7 @@ public class GameController implements Runnable
     private Thread runThread;
     //private Graphics globalGraphics;
     private boolean gameisOver =  false;
+    private boolean levelPassed = false;
 
     // Create database
     Database test =  new Database();
@@ -51,6 +56,7 @@ public class GameController implements Runnable
 
         dragon = new Dragon();
         blocks = new Blocks();
+        door = new Door( new Point(GRID_WIDTH - 1, GRID_HEIGHT - 1));
         
         backgroundColor = canvas.getBackground1();
         dragon.defaultDragon();
@@ -118,6 +124,29 @@ public class GameController implements Runnable
     {
         score = 0;
         writen = false;
+        door.setState( false);
+    }
+
+    public void notify( Graphics g, String type)
+    {
+        backgroundColor = Color.blue;
+
+        if( type.equals("game_over"))
+        {
+            g.setColor(Color.red);
+            g.setFont(new Font("default", Font.BOLD, 45));
+            g.drawString("GAME IS OVER ", (150), (BOX_HEIGHT * GRID_HEIGHT) / 2);
+            g.setColor(Color.BLACK);
+        }
+        if( type.equals("level_passed"))
+        {
+
+            g.setColor(Color.green);
+            g.setFont(new Font("default", Font.BOLD, 45));
+            g.drawString("LEVEL PASSED", (150), (BOX_HEIGHT * GRID_HEIGHT) / 2);
+            g.setColor(Color.BLACK);
+        }
+
     }
 
     public BufferedImage draw()
@@ -139,20 +168,31 @@ public class GameController implements Runnable
         DrawFruit(bufferGraphics);
         DrawGrid(bufferGraphics);
         dragon.drawDragon(bufferGraphics);
-        blocks.drawBlocks( bufferGraphics);
+        blocks.drawBlocks(bufferGraphics);
+        door.drawDoor( bufferGraphics);
         drawScore(bufferGraphics);
 
         if (gameisOver) {
-            backgroundColor = Color.blue;
-            if (!writen) {
-            	LeaderBoard lb = new LeaderBoard();
-                String name = DragonGui.textField_1.getText(); /** ****** ******* **/
-                test.writeToDb(name, curScore);               /** MUST BE CHANGED **/
-                lb.printScore();
-                curScore = 0;
-                writen = true;
+
+            if( levelPassed)
+            {
+                notify( bufferGraphics, "level_passed");
             }
-            gameOverDisplay(bufferGraphics);
+            else
+            {
+
+                if (!writen) {
+                    LeaderBoard lb = new LeaderBoard();
+                    String name = DragonGui.textField_1.getText(); /** ****** ******* **/
+                    test.writeToDb(name, curScore);               /** MUST BE CHANGED **/
+                    lb.printScore();
+                    curScore = 0;
+                    writen = true;
+                }
+                notify( bufferGraphics, "game_over");
+            }
+
+
         }
         else
            backgroundColor = canvas.getBackground1();  // Put first background color again.
@@ -182,6 +222,8 @@ public class GameController implements Runnable
         }
 
         gameisOver =  false;
+        levelPassed = false;
+
 
         Point head = dragon.getHead();
         Point newPoint = head;
@@ -202,6 +244,9 @@ public class GameController implements Runnable
         }
 
         dragon.remove(dragon.getTail());
+
+        if( curScore == 100)
+            door.setState( true);
 
         if (newPoint.equals(fruit))
         {
@@ -226,6 +271,25 @@ public class GameController implements Runnable
             }
             dragon.push(addPoint); // when it hits to fruit, dragon will grow up
             replaceFruit();
+
+        }
+        else if( door.getLocation().equals( head))
+        {
+            if( door.getState())
+            {
+                dragon.defaultDragon();
+                defaultGame();
+                gameisOver =  true;
+                levelPassed = true;
+            }
+            else
+            {
+                dragon.defaultDragon();
+                defaultGame();
+                gameisOver =  true;
+            }
+
+            return;
 
         }
         else if( blocks.contains( head))
@@ -284,13 +348,7 @@ public class GameController implements Runnable
 
 
 
-    public void gameOverDisplay (Graphics g)
-    {
-        g.setColor(Color.red);
-        g.setFont(new Font("default", Font.BOLD, 45));
-        g.drawString("GAME IS OVER ", (150) , (BOX_HEIGHT * GRID_HEIGHT)/2);
-        g.setColor(Color.BLACK);
-    }
+
 
     public void DrawFruit(Graphics g)
     {
@@ -322,6 +380,7 @@ public class GameController implements Runnable
                 if (direction !=  Directions.EAST)
                     dragon.setDirection(Directions.WEST);
                 break;
+
 
             default:
                 break;

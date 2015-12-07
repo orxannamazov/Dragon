@@ -1,5 +1,5 @@
 
-import java.awt.Point;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /*
@@ -18,21 +18,24 @@ public class Door
     private BufferedImage doorImage;
     private boolean state;
     
-    public Door(Point location, BufferedImage doorImage)
+    public Door(Point location)
     {
-        this.doorImage = doorImage;
         this.location = location;
-        
+        state = false;
     }
     
     public boolean isOpened(){
-        //if()
         return state;
     }
     
     public void setState(boolean isOpened){
         state = isOpened;
     }
+
+    public boolean getState(){
+        return state;
+    }
+
     /**
      * @return the location
      */
@@ -52,6 +55,17 @@ public class Door
      */
     public BufferedImage getDoorImage() {
         return doorImage;
+    }
+
+    public void drawDoor( Graphics g)
+    {
+        if( state)
+            g.setColor(Color.blue);
+        else
+            g.setColor(Color.black);
+        g.fillRoundRect(location.x * dragonCanvas.BOX_WIDTH, location.y * dragonCanvas.BOX_HEIGHT,
+                dragonCanvas.BOX_WIDTH, dragonCanvas.BOX_HEIGHT, 5, 5);
+        g.setColor(Color.BLACK);
     }
 
     /**
