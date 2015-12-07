@@ -62,10 +62,10 @@ public class Options extends JPanel implements MouseListener,KeyListener
     public void mouseClicked(MouseEvent e) {
         if(e.getComponent() == soundButton)
         {
-           if(isSoundOpen)
-               isSoundOpen = false;
+           if(isSoundOpen())
+               setSoundOpen(false);
            else
-               isSoundOpen = true;
+               setSoundOpen(true);
            
            //updateSound();
         }
