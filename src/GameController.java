@@ -27,6 +27,7 @@ public class GameController implements Runnable
     //private LinkedList<Point> dragon;// dragon stuff
     private Dragon dragon;
 
+    private Blocks blocks;
 
     private Point fruit;
     //private int direction = Directions.NO_DIRECTION;
@@ -49,17 +50,38 @@ public class GameController implements Runnable
         canvas = c;
 
         dragon = new Dragon();
+        blocks = new Blocks();
         
         backgroundColor = canvas.getBackground1();
         dragon.defaultDragon();
         defaultGame();
         replaceFruit();
 
+        blocks.createBlock(getRandomPoint());
+        blocks.createBlock(getRandomPoint());
+        blocks.createBlock( getRandomPoint());
+
         if (runThread == null)
         {
             runThread = new Thread(this);
             runThread.start();
         }
+    }
+
+    public Point getRandomPoint()
+    {
+        Random random =  new Random ();
+        int randomX = random.nextInt(GRID_WIDTH);
+        int randomY = random.nextInt(GRID_HEIGHT);
+        Point randomPoint =  new Point(randomX, randomY);
+
+        while (dragon.contains(randomPoint) && !randomPoint.equals( fruit) && !blocks.contains( randomPoint)) {
+            randomX = random.nextInt(GRID_WIDTH);
+            randomY = random.nextInt(GRID_HEIGHT);
+            randomPoint = new Point(randomX, randomY);
+        }
+        return randomPoint;
+
     }
 
     /*public void paint(Graphics g)
@@ -82,7 +104,7 @@ public class GameController implements Runnable
         int randomY = random.nextInt(GRID_HEIGHT);
         Point randomPoint =  new Point(randomX, randomY);
 
-        while (dragon.contains(randomPoint)) {
+        while (dragon.contains(randomPoint) ) {
             randomX = random.nextInt(GRID_WIDTH);
             randomY = random.nextInt(GRID_HEIGHT);
             randomPoint = new Point(randomX, randomY);
@@ -106,13 +128,18 @@ public class GameController implements Runnable
         
         Color defaultColor = bufferGraphics.getColor();
 
-        bufferGraphics.setColor( backgroundColor);
-        bufferGraphics.fillRect(0, 0, BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30);
-        bufferGraphics.setColor( defaultColor);
+        bufferGraphics.clearRect(0, 0, BOX_WIDTH * GRID_WIDTH + 10, BOX_HEIGHT * GRID_HEIGHT + 30);
+
+        bufferGraphics.setColor(backgroundColor);
+        bufferGraphics.fillRect(0, 0, BOX_WIDTH * GRID_WIDTH + 10, BOX_HEIGHT * GRID_HEIGHT + 30);
+        bufferGraphics.setColor(defaultColor);
+
+
 
         DrawFruit(bufferGraphics);
         DrawGrid(bufferGraphics);
         dragon.drawDragon(bufferGraphics);
+        blocks.drawBlocks( bufferGraphics);
         drawScore(bufferGraphics);
 
         if (gameisOver) {
@@ -200,6 +227,13 @@ public class GameController implements Runnable
             dragon.push(addPoint); // when it hits to fruit, dragon will grow up
             replaceFruit();
 
+        }
+        else if( blocks.contains( head))
+        {
+            dragon.defaultDragon();
+            defaultGame();
+            gameisOver =  true;
+            return;
         }
         else if (newPoint.x < 0 || newPoint.x > GRID_WIDTH-1)
         {

@@ -32,8 +32,8 @@ public class LeaderBoard {
 		while (interate.hasNext()) {
 			DBObject dbObject = (DBObject) interate.next();
 
-			int id = toIntExact((int)dbObject.get("id"));
-			int point = (int) dbObject.get("Point");
+			int id = toIntExact((Long)dbObject.get("id"));
+			int point = (Integer) dbObject.get("Point");
 			String name = (String) dbObject.get("Name");
 
 			Score sc = new Score();

@@ -103,7 +103,7 @@ public class Options extends JPanel implements MouseListener,KeyListener
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_ENTER && difficulty.getText() != "") {
                 int difficultyLevel = Integer.parseInt(difficulty.getText());
-                if( difficultyLevel > 0)
+                if( difficultyLevel > 0){}
                     //updateDifficulty(difficultyLevel); according to Number
                     
         }
