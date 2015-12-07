@@ -1,4 +1,8 @@
-
+/**
+ * 
+ * @author Orxan
+ *
+ */
 public class Directions {
 	
 	public static  final int 	NO_DIRECTION = 0, 

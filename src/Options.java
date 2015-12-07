@@ -31,12 +31,12 @@ public class Options extends JPanel implements MouseListener,KeyListener
     
     private JButton soundButton;
     private JTextField difficulty;
-    private boolean soundOpen;
+    private boolean isSoundOpen;
 
    public Options()
    {
        soundButton  = new JButton("ENABLE/DISABLE BUTTON");
-       soundOpen = true;
+       isSoundOpen = true;
        difficulty = new JTextField("PLEASE ENTER THE DIFFICULTY LEVEL", 100);
        
        add(soundButton);
@@ -119,13 +119,13 @@ public class Options extends JPanel implements MouseListener,KeyListener
      * @return the soundOpen
      */
     public boolean isSoundOpen() {
-        return soundOpen;
+        return isSoundOpen;
     }
 
     /**
      * @param soundOpen the soundOpen to set
      */
     public void setSoundOpen(boolean soundOpen) {
-        this.soundOpen = soundOpen;
+        this.isSoundOpen = soundOpen;
     }
 }

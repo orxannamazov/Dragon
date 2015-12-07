@@ -8,7 +8,12 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.sound.midi.MidiDevice.Info;
-
+/**
+ * 
+ * 
+ * @author Orxan
+ *
+ */
 public class InfoPanel extends Canvas {
 	
 	LeaderBoard lb = new LeaderBoard();

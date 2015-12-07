@@ -5,6 +5,12 @@ import java.util.*;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
+/**
+ * 
+ * 
+ * @author Orxan
+ *
+ */
 public class LeaderBoard {
 
 	Database db ;
@@ -26,7 +32,7 @@ public class LeaderBoard {
 		while (interate.hasNext()) {
 			DBObject dbObject = (DBObject) interate.next();
 
-			int id = toIntExact((long)dbObject.get("id"));
+			int id = toIntExact((int)dbObject.get("id"));
 			int point = (int) dbObject.get("Point");
 			String name = (String) dbObject.get("Name");
 

@@ -1,4 +1,8 @@
 
+/**
+ * @author Orkhan
+ * 
+ */
 public class Score {
 	
 	//VARIABLES 

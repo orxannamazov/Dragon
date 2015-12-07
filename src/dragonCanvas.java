@@ -10,7 +10,12 @@ import javax.swing.ImageIcon;
 
 
 import javafx.scene.layout.Background;
-
+/**
+ * 
+ * 
+ * @author Orxan
+ *
+ */
 public class dragonCanvas extends Canvas implements KeyListener
 {
 

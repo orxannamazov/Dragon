@@ -26,7 +26,7 @@ public class Credits extends Canvas{
         g.setColor(Color.BLUE);
       //  g.setFont(new Font("default", Font.BOLD, 16));
         
-        for (int i,j = 0; i < CREATORS.length; i++) {
+        for (int i=0 ,j = 0; i < CREATORS.length; i++) {
         	 g.drawString(CREATORS[i].toString() + "\n" , 30, j);
                  j+=30;
 		}
