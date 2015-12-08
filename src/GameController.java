@@ -23,8 +23,7 @@ public class GameController implements Runnable
     
     //hold a reference to the dragon canvas so that it can paint
     dragonCanvas canvas;
-    
-
+    private boolean enterName = false;
 
     //private LinkedList<Point> dragon;// dragon stuff
     private Dragon dragon;
@@ -125,6 +124,7 @@ public class GameController implements Runnable
         score = 0;
         writen = false;
         door.setState( false);
+        
     }
 
     public void notify( Graphics g, String type)
@@ -146,7 +146,7 @@ public class GameController implements Runnable
             g.drawString("LEVEL PASSED", (150), (BOX_HEIGHT * GRID_HEIGHT) / 2);
             g.setColor(Color.BLACK);
         }
-
+        
     }
 
     public BufferedImage draw()
@@ -190,8 +190,11 @@ public class GameController implements Runnable
                     lb.printScore();
                     curScore = 0;
                     writen = true;
+                    enterName =true;
                 }
                 notify( bufferGraphics, "game_over");
+
+                
             }
 
 
@@ -200,7 +203,11 @@ public class GameController implements Runnable
            backgroundColor = canvas.getBackground1();  // Put first background color again.
 
         bufferGraphics.drawImage(bufferedimage, 0, 0, BOX_WIDTH * GRID_WIDTH, BOX_HEIGHT * GRID_HEIGHT, canvas);
-
+        
+        if(enterName){
+        	Main.enterName();
+        	enterName =false;
+        }
         return bufferedimage;
     }
     

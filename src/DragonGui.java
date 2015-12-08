@@ -106,7 +106,7 @@ public class DragonGui extends JFrame {
 		
 		panel_1 = new JPanel();
 		panel_1.setBounds(678, 315, 216, 304);
-		//panel_1.add(ip.topThree());
+		panel_1.add(ip.topThree());
 		contentPane.add(panel_1);
 		
 		

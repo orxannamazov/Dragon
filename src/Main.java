@@ -63,7 +63,7 @@ public class Main extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				btnPlayNow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Play_on.png")));
 				DragonGui dragon = new DragonGui();
-				 name = JOptionPane.showInputDialog("Please write your name : ");
+				 name = enterName();
 				dragon.setVisible(true);
 				frame.setVisible(false);
 				dragon.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -201,5 +201,9 @@ public class Main extends JFrame {
 		background.setIcon(new ImageIcon(Main.class.getResource(name)));
 		background.setBounds(0, 0, 960, 600);
 		contentPane.add(background);
+	}
+	public static String enterName()
+	{
+		return  JOptionPane.showInputDialog("Please enter your name ");
 	}
 }
