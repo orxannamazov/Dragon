@@ -25,26 +25,26 @@ public class DragonGui extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					DragonGui frame = new DragonGui();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					DragonGui frame = new DragonGui();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
 	public DragonGui() {
 		setTitle("DRAGON VALLEY" );
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 100, 820, 680);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(200, 100, 1024, 680);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -87,4 +87,5 @@ public class DragonGui extends JFrame {
 		infoPanel.setFocusable(true);
 		contentPane.add(infoPanel,BorderLayout.EAST);
 	}
+
 }
