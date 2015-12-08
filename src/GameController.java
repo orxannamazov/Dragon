@@ -1,4 +1,4 @@
-import com.sun.corba.se.impl.orbutil.graph.Graph;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,6 +28,7 @@ public class GameController implements Runnable
 
     //private LinkedList<Point> dragon;// dragon stuff
     private Dragon dragon;
+    private DragonGui dg = new DragonGui();
 
     private Door door;
 
@@ -152,15 +153,15 @@ public class GameController implements Runnable
     public BufferedImage draw()
     {
 
-        BufferedImage bufferedimage = new BufferedImage(BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 30, BufferedImage.TYPE_INT_ARGB_PRE);
+        BufferedImage bufferedimage = new BufferedImage(BOX_WIDTH * GRID_WIDTH + 10 , BOX_HEIGHT * GRID_HEIGHT + 10, BufferedImage.TYPE_INT_ARGB_PRE);
         Graphics bufferGraphics = bufferedimage.getGraphics();
         
         Color defaultColor = bufferGraphics.getColor();
 
-        bufferGraphics.clearRect(0, 0, BOX_WIDTH * GRID_WIDTH + 10, BOX_HEIGHT * GRID_HEIGHT + 30);
+        bufferGraphics.clearRect(0, 0, BOX_WIDTH * GRID_WIDTH + 10, BOX_HEIGHT * GRID_HEIGHT + 10);
 
         bufferGraphics.setColor(backgroundColor);
-        bufferGraphics.fillRect(0, 0, BOX_WIDTH * GRID_WIDTH + 10, BOX_HEIGHT * GRID_HEIGHT + 30);
+        bufferGraphics.fillRect(0, 0, BOX_WIDTH * GRID_WIDTH + 10, BOX_HEIGHT * GRID_HEIGHT + 10);
         bufferGraphics.setColor(defaultColor);
 
 
@@ -171,6 +172,7 @@ public class GameController implements Runnable
         blocks.drawBlocks(bufferGraphics);
         door.drawDoor( bufferGraphics);
         drawScore(bufferGraphics);
+        printScore();
 
         if (gameisOver) {
 
@@ -183,8 +185,8 @@ public class GameController implements Runnable
 
                 if (!writen) {
                     LeaderBoard lb = new LeaderBoard();
-                    String name = DragonGui.textField_1.getText(); /** ****** ******* **/
-                    test.writeToDb(name, curScore);               /** MUST BE CHANGED **/
+                   // String name = DragonGui.textField_1.getText(); /** ****** ******* **/
+                  //  test.writeToDb(name, curScore);               /** MUST BE CHANGED **/
                     lb.printScore();
                     curScore = 0;
                     writen = true;
@@ -204,6 +206,10 @@ public class GameController implements Runnable
 
 
 
+    public void printScore()
+    {
+    	dg.printScore(score);
+    }
     public void drawScore (Graphics g)
     {
    

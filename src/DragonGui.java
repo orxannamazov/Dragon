@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
@@ -19,8 +20,13 @@ public class DragonGui extends JFrame {
 	private JPanel contentPane;
 	//private JTextField txtHellop;
 	private dragonCanvas dragonCanvas;
-	//private JTextField textField;
-	static JTextField textField_1;
+	private JPanel panel;
+	InfoPanel ip = new InfoPanel();
+	private JLabel lblScore;
+	private JLabel lblSc;
+	private JLabel lblName;
+	private JLabel lblN;
+	private JPanel panel_1;
 
 	/**
 	 * Launch the application.
@@ -44,7 +50,7 @@ public class DragonGui extends JFrame {
 	public DragonGui() {
 		setTitle("DRAGON VALLEY" );
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(200, 100, 1024, 680);
+		setBounds(200, 100, 900, 680);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -53,39 +59,65 @@ public class DragonGui extends JFrame {
 
 		
 		dragonCanvas =  new dragonCanvas();
-		dragonCanvas.setPreferredSize(new Dimension(820, 680));
+		dragonCanvas.setBounds(55, 21, 599, 598);
 
 		dragonCanvas.setVisible(true);
-		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setLayout(null);
 		dragonCanvas.setFocusable(true);
 
 		// Start the game and let the controller know its canvas.
 		GameController controller = new GameController( dragonCanvas);
 		dragonCanvas.setGameController( controller);
 		
-		contentPane.add(dragonCanvas,BorderLayout.CENTER);
-		
-		JLabel lblDragon = new JLabel("DRAGON");
-		lblDragon.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		contentPane.add(lblDragon, BorderLayout.NORTH);
+		contentPane.add(dragonCanvas);
 		
 		String text = "GROUP 11!";
 		JLabel lblbottom = new JLabel(text, SwingConstants.CENTER);
+		lblbottom.setBounds(5, 633, 790, 20);
 		lblbottom.setFont(new Font("default", Font.BOLD, 16));
 		lblbottom.setForeground(Color.BLUE);
 		
-		contentPane.add(lblbottom, BorderLayout.SOUTH);
+		contentPane.add(lblbottom);
 		
-		textField_1 = new JTextField();
-		textField_1.setToolTipText("NAME");
-		contentPane.add(textField_1, BorderLayout.WEST);
-		textField_1.setColumns(10);
 		
-		InfoPanel infoPanel = new InfoPanel();
-		infoPanel.setPreferredSize(new Dimension(220, 680));
-		infoPanel.setVisible(true);
-		infoPanel.setFocusable(true);
-		contentPane.add(infoPanel,BorderLayout.EAST);
+		panel = new JPanel();
+		panel.setBounds(678, 21, 216, 247);
+		//panel.add(ip.getComp());
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		lblScore = new JLabel("Score");
+		lblScore.setBounds(17, 64, 61, 16);
+		panel.add(lblScore);
+		
+		lblSc = new JLabel("");
+		lblSc.setBounds(111, 64, 61, 16);
+		panel.add(lblSc);
+		
+		lblName = new JLabel("Name");
+		lblName.setBounds(17, 36, 61, 16);
+		panel.add(lblName);
+		
+		lblN = new JLabel("Name");
+		lblN.setBounds(100, 36, 61, 16);
+		panel.add(lblN);
+		
+		panel_1 = new JPanel();
+		panel_1.setBounds(678, 315, 216, 304);
+		panel_1.add(ip.topThree());
+		contentPane.add(panel_1);
+		
+		
+	
+	}
+	
+	public void printName(String name)
+	{
+		lblN.setText(name);
+	}
+	public void printScore (int point)
+	{
+		lblSc.setText(new Integer(point) + "");
 	}
 
 }
