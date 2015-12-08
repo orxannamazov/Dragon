@@ -43,6 +43,7 @@ public class Main extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		setResizable(false);
 		contentPane.setLayout(null);
 		buttonInit();
 		setBackgroundPicture("/images/dragon3.jpg");
