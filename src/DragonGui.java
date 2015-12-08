@@ -18,19 +18,19 @@ import javax.swing.SwingConstants;
 public class DragonGui extends JFrame {
 
 	private JPanel contentPane;
-	//private JTextField txtHellop;
+
 	private dragonCanvas dragonCanvas;
 	private JPanel panel;
 	InfoPanel ip = new InfoPanel();
 	private JLabel lblScore;
-	private JLabel lblSc;
+	private static JLabel lblSc;
 	private JLabel lblName;
-	private JLabel lblN;
+	private static JLabel lblN;
 	private JPanel panel_1;
 
-	/**
-	 * Launch the application.
-	 */
+//	/**
+//	 * Launch the application.
+//	 */
 //	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
@@ -82,7 +82,9 @@ public class DragonGui extends JFrame {
 		
 		panel = new JPanel();
 		panel.setBounds(678, 21, 216, 247);
+		
 		//panel.add(ip.getComp());
+	
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -104,18 +106,18 @@ public class DragonGui extends JFrame {
 		
 		panel_1 = new JPanel();
 		panel_1.setBounds(678, 315, 216, 304);
-		panel_1.add(ip.topThree());
+		//panel_1.add(ip.topThree());
 		contentPane.add(panel_1);
 		
 		
 	
 	}
 	
-	public void printName(String name)
+	public static void printName(String name)
 	{
 		lblN.setText(name);
 	}
-	public void printScore (int point)
+	public static void printScore (int point)
 	{
 		lblSc.setText(new Integer(point) + "");
 	}

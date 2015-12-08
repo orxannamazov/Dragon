@@ -54,7 +54,6 @@ public class InfoPanel extends JFrame {
 		contentPane.setLayout(null);
 		panel = new JPanel();
 
-		//dg.setPanel(lblSalam);
 		//topThree();
 		
 	}
@@ -98,27 +97,4 @@ public class InfoPanel extends JFrame {
 }
 
 
-//
-//LeaderBoard lb = new LeaderBoard();
-//ArrayList<Score> score = lb.getArray();
-//BufferedImage bufferedimage;
-//
-//public InfoPanel()
-//{
-//	
-//}
-//
-//public void drawScore (Graphics g)
-//{
-//    g.setColor(Color.BLUE);
-//    g.setFont(new Font("default", Font.BOLD, 16));
-//    
-//    for (int i = 0; i < 3; i++) {
-//    	 g.drawString(score.toString() + "\n" , 5, i + 30);
-//    	 System.out.println(score.toString());
-//	}
-//
-//    g.setColor(Color.BLACK);
-//
-//}
 

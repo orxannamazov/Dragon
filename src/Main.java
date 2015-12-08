@@ -15,6 +15,7 @@ public class Main extends JFrame {
 
 	private JPanel contentPane;
 	static Main frame;
+	static String name;
 
 	/**
 	 * Launch the application.
@@ -45,13 +46,7 @@ public class Main extends JFrame {
 		contentPane.setLayout(null);
 		buttonInit();
 		setBackgroundPicture("/images/dragon3.jpg");
-		
-		
-		
-		
-		
-		//setUndecorated(true);
-		//setLocationRelativeTo(null);
+
 		
 	}
 
@@ -68,6 +63,7 @@ public class Main extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				btnPlayNow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Play_on.png")));
 				DragonGui dragon = new DragonGui();
+				 name = JOptionPane.showInputDialog("Please write your name : ");
 				dragon.setVisible(true);
 				frame.setVisible(false);
 				dragon.addWindowListener(new java.awt.event.WindowAdapter() {

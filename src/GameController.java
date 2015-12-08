@@ -28,7 +28,6 @@ public class GameController implements Runnable
 
     //private LinkedList<Point> dragon;// dragon stuff
     private Dragon dragon;
-    private DragonGui dg = new DragonGui();
 
     private Door door;
 
@@ -173,6 +172,7 @@ public class GameController implements Runnable
         door.drawDoor( bufferGraphics);
         drawScore(bufferGraphics);
         printScore();
+        printName();
 
         if (gameisOver) {
 
@@ -185,8 +185,8 @@ public class GameController implements Runnable
 
                 if (!writen) {
                     LeaderBoard lb = new LeaderBoard();
-                   // String name = DragonGui.textField_1.getText(); /** ****** ******* **/
-                  //  test.writeToDb(name, curScore);               /** MUST BE CHANGED **/
+                   
+                    test.writeToDb(Main.name, curScore);               /** MUST BE CHANGED **/
                     lb.printScore();
                     curScore = 0;
                     writen = true;
@@ -203,12 +203,16 @@ public class GameController implements Runnable
 
         return bufferedimage;
     }
-
+    
+    public void printName()
+    {
+    	DragonGui.printName(Main.name);
+    }
 
 
     public void printScore()
     {
-    	dg.printScore(score);
+    	DragonGui.printScore(score);
     }
     public void drawScore (Graphics g)
     {
