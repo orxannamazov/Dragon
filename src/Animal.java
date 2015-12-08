@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import java.awt.Point;
+import java.awt.*;
 
 /**
  *
@@ -22,6 +22,15 @@ public class Animal
         this.location = location;
         this.size = size;
         this.value = value;
+    }
+
+    public Animal(){}
+
+    public void drawAnimal( Graphics g)
+    {
+        g.setColor(Color.RED);
+        g.fillOval(location.x * Stage.BOX_WIDTH, location.y * Stage.BOX_HEIGHT, Stage.BOX_WIDTH, Stage.BOX_HEIGHT);
+        g.setColor(Color.BLACK);
     }
 
     /**

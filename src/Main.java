@@ -53,7 +53,7 @@ public class Main extends JFrame {
 
 	public void buttonInit()
 	{
-		JLabel btnPlayNow = new JLabel("");
+		final JLabel btnPlayNow = new JLabel("");
 		btnPlayNow.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -99,7 +99,7 @@ public class Main extends JFrame {
 		btnPlayNow.setBounds(722, 60, 156, 56);
 		contentPane.add(btnPlayNow);
 		
-		JLabel btnleaderBoard = new JLabel("button 2");
+		final JLabel btnleaderBoard = new JLabel("button 2");
 		btnleaderBoard.addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -129,7 +129,7 @@ public class Main extends JFrame {
 		btnleaderBoard.setBounds(704, 333, 169, 66);
 		contentPane.add(btnleaderBoard);
 		
-		JLabel btnHelp = new JLabel("");
+		final JLabel btnHelp = new JLabel("");
 		btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -167,7 +167,7 @@ public class Main extends JFrame {
 		btnHelp.setBounds(722, 260, 156, 48);
 		contentPane.add(btnHelp);
 		
-		JLabel btnOptions = new JLabel("");
+		final JLabel btnOptions = new JLabel("");
 		btnOptions.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
