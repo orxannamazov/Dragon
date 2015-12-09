@@ -1,23 +1,15 @@
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Properties;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
-
-
-import static java.lang.Math.toIntExact;
-
-import java.io.IOException;
-import java.io.InputStream;
+import com.mongodb.MongoClientURI;
 
 /**
  * @author Orxan
@@ -30,7 +22,7 @@ public class Database {
 	private String hostname;  
 	private int port; 
 	private String fileName = "resources/DatabaseInfo.properties";
-			
+	private String onlineHost = "mongodb://orkhan:Orxan513@ds061454.mongolab.com:61454/dragonvalley";
 
 	private String dataBaseName;
 	private String tableName;
@@ -40,24 +32,43 @@ public class Database {
 	private DB db;
 	private DBCollection table;
 	private BasicDBObject document;
+	private boolean isconnected = false;
 
 
 
 	public Database()
 	{
+
 		try {
-			readProperties(fileName);
+			
+			if (isInternetReachable()) {
+				readProperties(fileName);
+				isconnected = connectToDb(onlineHost);
+			}
+//			else 
+//			{
+//				readProperties(fileName);
+//				isconnected = connectToDb(hostname);
+//			}
+			
+		//	readProperties(fileName);
+			//isconnected = connectToDb(hostname);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-		boolean isconnected = connectToDb(hostname, port);
+		
+		//checkCollection(tableName);
 
-		// To get DB from Mongodb Or if it is not it will create new one 
-		if (isconnected) {
-			db = mongoClient.getDB(dataBaseName);
-			table = db.getCollection(tableName);
-		}
+		
+		
+
+//		// To get DB from Mongodb Or if it is not it will create new one 
+//		if (isconnected) {
+//			db = mongoClient.getDB(dataBaseName);
+//			table = db.getCollection(tableName);
+//		}
 	}
 	
 	//Read properties from file 
@@ -73,7 +84,7 @@ public class Database {
 
 			//ftp_port = Integer.parseInt(prop.getProperty("ftp.port"));
 			hostname  	 =	properties.getProperty("hostName");
-			port		 =		Integer.parseInt(properties.getProperty("port"));
+			port		 =	Integer.parseInt(properties.getProperty("port"));
 			dataBaseName =	properties.getProperty("dataBase");
 			tableName	 =  properties.getProperty("collection");
 			
@@ -83,15 +94,30 @@ public class Database {
 
 	}
 
-	private boolean connectToDb(String hostname, int port){
+	private boolean connectToDb(String hostname){
 		try {
-			mongoClient = new MongoClient( hostname, port );	
+			if (isInternetReachable()) {
+		        MongoClientURI uri  = new MongoClientURI(hostname); 
+		        MongoClient client = new MongoClient(uri);
+		        db = client.getDB(uri.getDatabase());
+		        table = db.getCollection(tableName);
+		        System.out.println("I connected to online mongodb");
+			}
+			else{
+				mongoClient = new MongoClient( hostname );	
+				db = mongoClient.getDB(dataBaseName);
+				table = db.getCollection(tableName);
+				System.out.println("I connected to local mongodb");
+			}
+//			mongoClient = new MongoClient( hostname );	
+//			db = mongoClient.getDB(dataBaseName);
+//			table = db.getCollection(tableName);
+//			System.out.println("I connected to local mongodb");
 
-			System.out.println("I connected to db");
 			return true; 
 
 		} catch (Exception e) {
-			System.out.println("ERROR WHILE CONNECTION TO DB" + e.getMessage());
+			System.out.println("ERROR WHILE CONNECTION TO DB \n" + e.getMessage());
 			return false; 
 		}
 
@@ -138,6 +164,41 @@ public class Database {
 		
 		return cursor;
 		
+	}
+	public int getCollectionLength()
+	{
+		return getDBCursor().length();
+	}
+	
+	public boolean isInternetReachable() {
+		Process p1;
+		int returnVal = -1;
+		boolean reachable;
+		try {
+			p1 = java.lang.Runtime.getRuntime().exec("ping -c 1 www.google.com");
+			returnVal = p1.waitFor();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.getMessage();
+			e.printStackTrace();
+		}
+		
+		 reachable = (returnVal==0);
+		 return reachable;
+	}
+	public void checkCollection(final String collectionName) {
+		 boolean collectionExists = db.collectionExists(collectionName);
+		 if (!collectionExists) {
+			 document = new BasicDBObject();
+				document.append("id", 0); // Auto Increment id 
+				document.put("Name", "");
+				document.put("Point", 0);
+				document.put("createdDate", new Date());
+				table.insert(document); // If the collection does not exist, then the insert() method will create the collection.
+		 }else
+		 {
+			 updatePoints(0, 0);
+		 }
 	}
 
 }

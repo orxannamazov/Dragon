@@ -1,9 +1,5 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.util.Random;
 
 /**
@@ -11,13 +7,11 @@ import java.util.Random;
  */
 public class Stage
 {
-
     //VARIABLES
     public static final int BOX_HEIGHT	 = 30;
     public static final int BOX_WIDTH	 = 30;
     public static final int GRID_WIDTH 	 = 20;
     public static final int GRID_HEIGHT	 = 20;
-
 
     private Door door;
 
@@ -70,7 +64,6 @@ public class Stage
 
 
     }
-
 
     public void drawAllComponents( Graphics bufferGraphics)
     {

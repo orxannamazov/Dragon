@@ -1,29 +1,23 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import java.awt.FlowLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import javax.swing.UIManager;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.MatteBorder;
-
 public class LeaderBoardGui extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
 	LeaderBoard lB = new LeaderBoard();
@@ -74,8 +68,11 @@ public class LeaderBoardGui extends JFrame {
 		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
 		table.getColumnModel().getColumn(1).setCellRenderer( centerRenderer );
 		
+		
+		lB.getArray().clear();
+		lB.fillArray();
 		for (int i = 0; i < lB.getArray().size(); i++) {
-			int id = lB.getArray().get(i).getId();
+		//	int id = lB.getArray().get(i).getId();
 			String name = lB.getArray().get(i).getName();
 			int point = lB.getArray().get(i).getPoint();
 			

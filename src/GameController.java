@@ -1,12 +1,16 @@
 
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.util.Random;
+
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 
 /**
@@ -23,9 +27,11 @@ public class GameController implements Runnable
     
     //hold a reference to the dragon canvas so that it can paint
     dragonCanvas canvas;
-    private boolean enterName = false;
+    private boolean enterName = true;
+    private String name;
+    private int oldscore;
 
-    private Timer gameTimer;
+	private Timer gameTimer;
 
     //private LinkedList<Point> dragon;// dragon stuff
     private Dragon dragon;
@@ -47,7 +53,7 @@ public class GameController implements Runnable
     private boolean levelPassed = false;
 
     // Create database
-    Database test =  new Database();
+    Database test =  Main.db;
 
     boolean writen = false;
 
@@ -144,9 +150,10 @@ public class GameController implements Runnable
 
         dragon.drawDragon(bufferGraphics);
         stage.drawAllComponents( bufferGraphics);
-        drawScore(bufferGraphics);
+     //   drawScore(bufferGraphics);
+
         printScore();
-        printName();
+  //      printName();
 
         if (gameisOver) {
 
@@ -156,21 +163,16 @@ public class GameController implements Runnable
             }
             else
             {
-
                 if (!writen) {
                     LeaderBoard lb = new LeaderBoard();
-                   
-                    test.writeToDb(Main.name, curScore);               /** MUST BE CHANGED **/
+
+                    test.writeToDb(name, curScore);               /** MUST BE CHANGED **/
                     lb.printScore();
                     curScore = 0;
                     writen = true;
-                    enterName =true;
                 }
                 notify( bufferGraphics, "game_over");
-
-                
             }
-
         }
         else if( gamePaused)
         {
@@ -180,25 +182,44 @@ public class GameController implements Runnable
            backgroundColor = canvas.getBackground1();  // Put first background color again.
 
         bufferGraphics.drawImage(bufferedimage, 0, 0, BOX_WIDTH * GRID_WIDTH, BOX_HEIGHT * GRID_HEIGHT, canvas);
-        
+
         if(enterName){
-        	Main.enterName();
-        	enterName =false;
+        	name = enterName();
+        	enterName = false;
         }
         return bufferedimage;
     }
     
     public void printName()
     {
-    	DragonGui.printName(Main.name);
+    	DragonGui.printName(name);
     }
-
+    
 
     public void printScore()
     {
     	DragonGui.printScore(score);
     }
-    public void drawScore (Graphics g)
+	
+    public static String enterName()
+	{
+    	Main.dragon.setVisible(false);
+    	String name  = JOptionPane.showInputDialog("Please enter your name ");
+    	
+    	if (name == null){
+
+	        Main.frame.setVisible(true);	        
+	        }
+    	else
+    		Main.dragon.setVisible(true);
+		return  name;
+	}
+    
+	public void setName(String name) {
+		this.name = name;
+	}
+   
+	public void drawScore (Graphics g)
     {
 
         g.setColor(Color.BLUE);
@@ -208,11 +229,13 @@ public class GameController implements Runnable
         g.setColor(Color.BLACK);
 
     }
+    
     public void Move()
     {
         /** for start point gameover is always true. inorder to fix this bug I wrote this statement **/
         if(dragon.getDirection() ==  Directions.NO_DIRECTION){ // in order not to run this func
-            return;
+            printName();
+        	return;
         }
 
         gameisOver =  false;
@@ -267,6 +290,7 @@ public class GameController implements Runnable
             }
             dragon.push(addPoint); // when it hits to fruit, dragon will grow up
             stage.replaceAnimal(dragon);
+            printName();
 
         }
         else if( stage.isCollidingWithDoor(newPoint))
@@ -274,7 +298,10 @@ public class GameController implements Runnable
             if( stage.isDoorOpen())
             {
                 dragon.defaultDragon();
+                oldscore = score;
                 defaultGame();
+                score = oldscore;
+                oldscore = 0;
                 gameisOver =  true;
                 levelPassed = true;
 
@@ -324,14 +351,13 @@ public class GameController implements Runnable
             dragon.defaultDragon();
             defaultGame();
             gameisOver =  true;
+            
             return;
         }
 
         //if we reach this point in code, we're still good
         dragon.push(newPoint);  // if we're good, so dragon should move
     }
-
-
 
     public void keyPressed(KeyEvent e) {
 
@@ -352,6 +378,22 @@ public class GameController implements Runnable
                     dragon.setDirection(Directions.EAST);
                 break;
             case KeyEvent.VK_LEFT:
+                if (direction !=  Directions.EAST)
+                    dragon.setDirection(Directions.WEST);
+                break;
+            case KeyEvent.VK_W:
+                if (direction !=  Directions.SOUTH)
+                    dragon.setDirection(Directions.NORTH);
+                break;
+            case KeyEvent.VK_S:
+                if (direction !=  Directions.NORTH)
+                    dragon.setDirection(Directions.SOUTH);
+                break;
+            case KeyEvent.VK_D:
+                if (direction !=  Directions.WEST)
+                    dragon.setDirection(Directions.EAST);
+                break;
+            case KeyEvent.VK_A:
                 if (direction !=  Directions.EAST)
                     dragon.setDirection(Directions.WEST);
                 break;
@@ -407,10 +449,6 @@ public class GameController implements Runnable
                 canvas.draw(draw());
             }
         });
-
         gameTimer.start();
-
-
-
     }
 }

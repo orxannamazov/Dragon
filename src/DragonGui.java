@@ -1,21 +1,19 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
+import java.awt.Font;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import java.awt.GridLayout;
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
-import java.awt.Font;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 
 public class DragonGui extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1201181141355006261L;
 
 	private JPanel contentPane;
 
@@ -55,9 +53,6 @@ public class DragonGui extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
-
-
-		
 		dragonCanvas =  new dragonCanvas();
 		dragonCanvas.setBounds(55, 21, 599, 598);
 
@@ -108,8 +103,6 @@ public class DragonGui extends JFrame {
 		panel_1.setBounds(678, 315, 216, 304);
 		panel_1.add(ip.topThree());
 		contentPane.add(panel_1);
-		
-		
 	
 	}
 	

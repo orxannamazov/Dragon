@@ -13,12 +13,11 @@ import com.mongodb.DBObject;
  */
 public class LeaderBoard {
 
-	Database db ;
+	Database db = Main.db;
 	ArrayList<Score> score;
 	
 	public LeaderBoard ()
 	{
-		db =  new Database();
 		score = new ArrayList<Score>();
 		fillArray();
 	}
@@ -32,15 +31,26 @@ public class LeaderBoard {
 		while (interate.hasNext()) {
 			DBObject dbObject = (DBObject) interate.next();
 
-			int id = toIntExact((Long)dbObject.get("id"));
-			int point = (Integer) dbObject.get("Point");
-			String name = (String) dbObject.get("Name");
+			try {
+				String name =	(String)  dbObject.get("Name");
+				int point 	= 	(Integer) dbObject.get("Point");
+				long value =  (long) dbObject.get("id");
+				int id 		= toIntExact(value)	;
+				
+				
 
-			Score sc = new Score();
-			sc.setId(id);
-			sc.setName(name);
-			sc.setPoint(point);
-			score.add(sc);
+				Score sc = new Score();
+				sc.setId(id);
+				sc.setName(name);
+				sc.setPoint(point);
+				score.add(sc);
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println("FILL ARRAY: " + e.getMessage());
+				e.printStackTrace();
+			}
+		
 
 		}
 	}
@@ -48,6 +58,10 @@ public class LeaderBoard {
 
 	public ArrayList<Score> getArray() {
 		return score;
+	}
+	public int getCollectionLength()
+	{
+		return db.getCollectionLength();
 	}
 	
 	// Print all score 

@@ -1,21 +1,31 @@
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
 public class Main extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6677790717010624432L;
+	
 	private JPanel contentPane;
 	static Main frame;
 	static String name;
+	static DragonGui dragon;
+	static LeaderBoardGui leaderBoardgui;
+
+	static Database db; 
+	
+	static {
+		db = new Database();
+	}
 
 	/**
 	 * Launch the application.
@@ -37,6 +47,7 @@ public class Main extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 100, 960, 600);
@@ -47,7 +58,6 @@ public class Main extends JFrame {
 		contentPane.setLayout(null);
 		buttonInit();
 		setBackgroundPicture("/images/dragon3.jpg");
-
 		
 	}
 
@@ -63,10 +73,13 @@ public class Main extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				btnPlayNow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Play_on.png")));
-				DragonGui dragon = new DragonGui();
-				 name = enterName();
-				dragon.setVisible(true);
+				dragon = new DragonGui();
+				//name = GameController.enterName();
+				//dragon.setName(name);
+				
+				dragon.setVisible(true);				
 				frame.setVisible(false);
+
 				dragon.addWindowListener(new java.awt.event.WindowAdapter() {
 				    @Override
 				    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -100,36 +113,6 @@ public class Main extends JFrame {
 		btnPlayNow.setBounds(722, 60, 156, 56);
 		contentPane.add(btnPlayNow);
 		
-		final JLabel btnleaderBoard = new JLabel("button 2");
-		btnleaderBoard.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				btnleaderBoard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LeaderBoard_on.png")));
-				LeaderBoardGui frame = new LeaderBoardGui();
-				frame.setVisible(true);
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnleaderBoard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LeaderBoard_off.png")));
-			}
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				btnleaderBoard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LeaderBoard_off.png")));
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				btnleaderBoard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LeaderBoard_on.png")));
-			}
-			@Override
-			public void mousePressed(MouseEvent e) {
-				btnleaderBoard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LeaderBoard_on.png")));
-			}
-		});
-		btnleaderBoard.setIcon(new ImageIcon(Main.class.getResource("/images/Leaderboard_on.png")));
-		btnleaderBoard.setBounds(704, 333, 169, 66);
-		contentPane.add(btnleaderBoard);
-		
 		final JLabel btnHelp = new JLabel("");
 		btnHelp.addMouseListener(new MouseAdapter() {
 			@Override
@@ -148,8 +131,6 @@ public class Main extends JFrame {
 				    	frame.setVisible(true);
 				    }
 				});
-
-				
 			}
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -194,7 +175,42 @@ public class Main extends JFrame {
 		btnOptions.setIcon(new ImageIcon(Main.class.getResource("/images/options_on.png")));
 		btnOptions.setBounds(722, 139, 156, 58);
 		contentPane.add(btnOptions);
+		
+		JLabel btnlead = new JLabel("");
+		btnlead.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnlead.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Leaderboard_on.png")));
+				leaderBoardgui =  new LeaderBoardGui();
+				leaderBoardgui.setVisible(true);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnlead.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Leaderboard_off.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnlead.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Leaderboard_on.png")));
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				btnlead.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Leaderboard_on.png")));
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				
+			}
+		});
+		btnlead.setIcon(new ImageIcon(Main.class.getResource("/images/Leaderboard_on.png")));
+		
+		
+		
+		btnlead.setBounds(704, 343, 169, 48);
+		
+		contentPane.add(btnlead);
+		
 	}
+	
 
 	public void setBackgroundPicture(String name)
 	{
@@ -203,8 +219,13 @@ public class Main extends JFrame {
 		background.setBounds(0, 0, 960, 600);
 		contentPane.add(background);
 	}
-	public static String enterName()
-	{
-		return  JOptionPane.showInputDialog("Please enter your name ");
+
+	public String getName() {
+		return name;
 	}
+
+
+//	public void setName(String name) {
+//		this.name = name;
+//	}
 }
